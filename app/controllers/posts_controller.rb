@@ -3,17 +3,9 @@ class PostsController < ApplicationController
 
   respond_to :html
 
-  def index
-    @posts = Post.all
-    respond_with(@posts)
-  end
-
-  def show
-    respond_with(@post)
-  end
-
   def new
-    @post = Post.new
+    @user = User.find(params[:user_id])
+    @post = @user.posts.build
     respond_with(@post)
   end
 
@@ -21,9 +13,10 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @user = User.find(params[:post][:user_id])
+    @post = @user.posts.build(post_params)
     @post.save
-    respond_with(@post)
+    respond_with(@user)
   end
 
   def update
